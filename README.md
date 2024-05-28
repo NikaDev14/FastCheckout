@@ -11,12 +11,12 @@ FastCheckout est une application permettant à des utilisateurs de pouvoir effec
 ### 1- Clôner le Projet
 
 ```bash
-git clone git@rendu-git.etna-alternance.net:module-8898/activity-48680/fastCheckout.git
+git clone git@github.com:NikaDev14/FastCheckout.git
 ```
 
 ### 2- .env
 
-- vérifier que le .env existe : dans group-XXXX/backoffice/backoffice/.env
+- vérifier que le .env existe : dans backoffice/backoffice/.env
 
 - sinon
 ```bash
@@ -42,7 +42,7 @@ docker compose up -d --build
 
 ### 3- Déployer l'application localement
 
-dans group-XXXX/backoffice
+dans fastCheckout/backoffice
 
 ### 3.a Connexion au conteneur en bash
 
