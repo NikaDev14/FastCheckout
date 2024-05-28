@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  apache_usr:
+    build: .docker/apache
+    container_name: apache_usr
+    restart: always
+    ports:
+      - "8742:80"
+    networks:
+      - fc-user-network
+    volumes:
+      - ./.docker/apache/vhosts:/etc/apache2/sites-enabled
+      - ./user_api/:/var/www/html
+
+  pg_usr:
+    image: postgres:14.3
+    container_name: pg_usr
+    restart: always
+    environment:
+      POSTGRES_USER: 'elyes'
+      POSTGRES_PASSWORD: '123456'
+      POSTGRES_DB: 'backoffice_bis'
+    volumes:
+      - database:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    networks:
+      - fc-user-network
+
+networks:
+  fc-user-network:
+    name: fc-user-network
+volumes:
+  database:

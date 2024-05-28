@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  apache:
+    build: .docker/apache
+    container_name: apache
+    restart: always
+    ports:
+      - "8741:80"
+    networks:
+      - fc-shops-network
+      - fc-user-network
+    volumes:
+      - ./.docker/apache/vhosts:/etc/apache2/sites-enabled
+      - ./backoffice/:/var/www/html
+
+  postgres:
+    image: postgres:14.3
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: 'elyes'
+      POSTGRES_PASSWORD: '123456'
+      POSTGRES_DB: 'backoffice'
+    volumes:
+      - database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - fc-shops-network
+
+  postgres_test:
+    image: postgres:14.3
+    container_name: postgres_test
+    restart: always
+    environment:
+      POSTGRES_USER: 'elyes'
+      POSTGRES_PASSWORD: '123456'
+      POSTGRES_DB: 'backoffice_test'
+    volumes:
+      - database_test:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+
+  pgadmin:
+    depends_on:
+      - postgres
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "8081:80"
+    networks:
+      - fc-shops-network
+networks:
+  fc-user-network:
+    name: fc-user-network
+    external: true
+  fc-shops-network:
+    name: fc-shops-network
+volumes:
+  database:
+  database_test:
